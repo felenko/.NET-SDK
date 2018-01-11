@@ -15,7 +15,7 @@ using Weborb.Types;
 using Weborb.Util;
 using Weborb.Util.Logging;
 using Weborb.Exceptions;
-#if (!UNIVERSALW8 && !SILVERLIGHT && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !SILVERLIGHT && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
 using Weborb.Messaging.PubSub;
 using Weborb.Messaging.Net.RTMP;
 using Weborb.Messaging.Server;

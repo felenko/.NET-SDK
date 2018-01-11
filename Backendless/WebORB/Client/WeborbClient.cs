@@ -7,11 +7,11 @@ using System.Net;
 using System.Threading;
 using System.Security;
 
-#if (!UNIVERSALW8 && !FULL_BUILD && !PURE_CLIENT_LIB)
+#if (!UNIVERSALW8 && !FULL_BUILD && !PURE_CLIENT_LIB && !NETSTANDARD && !NETSTANDARD )
 using System.Windows.Controls;
 #endif
 
-#if( !UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if( !UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
 using System.Windows.Browser;
 #endif
 
@@ -20,7 +20,7 @@ using System.Reflection;
 
 using Weborb.Message;
 
-#if !UNIVERSALW8 && !PURE_CLIENT_LIB && !WINDOWS_PHONE8
+#if !UNIVERSALW8 && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD
 using Weborb.Messaging.Net.RTMP;
 #endif
 
@@ -33,7 +33,7 @@ using Weborb.Types;
 using Weborb.Util;
 using Weborb.Config;
 
-#if !( UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8)
+#if !( UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
 using Weborb.ProxyGen.DynamicProxy;
 using Weborb.ProxyGen.Core.Interceptor;
 #endif
@@ -124,7 +124,7 @@ namespace Weborb.Client
 
     public IdInfo IdInfo;
     private Engine _engine;
-#if !UNIVERSALW8 && !PURE_CLIENT_LIB && !WINDOWS_PHONE8
+#if !UNIVERSALW8 && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD
     public BaseRTMPClient RTMP
     {
       get
@@ -135,7 +135,7 @@ namespace Weborb.Client
       }
     }
 #endif
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || NETSTANDARD)
     internal UserControl uiControl;
 #endif
     //public static ManualResetEvent allDone = new ManualResetEvent( false );
@@ -221,7 +221,7 @@ namespace Weborb.Client
     {
     }
 
-#if !(FULL_BUILD || PURE_CLIENT_LIB || UNIVERSALW8)
+#if !(FULL_BUILD || PURE_CLIENT_LIB || UNIVERSALW8 || NETSTANDARD)
     /// <summary>
         /// Initializes a new instance of the <see cref="WeborbClient"/> class with the WebORB URL and an instance of UserControl. The UserControl object is used to dispatch events into the UI thread for data binding purposes.
         /// </summary>
@@ -279,7 +279,7 @@ namespace Weborb.Client
       }
     }
 
-#if !PURE_CLIENT_LIB  && !WINDOWS_PHONE8 && !UNIVERSALW8
+#if !PURE_CLIENT_LIB  && !WINDOWS_PHONE8 && !UNIVERSALW8 && !NETSTANDARD
     /// <summary>
     /// Creates a proxy to a remote interface with the target interface defined as T. The interface must define the return types for the methods with the generic AsyncToken class.
     /// </summary>
@@ -544,11 +544,11 @@ namespace Weborb.Client
       Type constructed = asyncType.MakeGenericType( argType );
       object asyncTokenObject = Activator.CreateInstance( constructed, new object[] { responder.ResponseHandler, responder.ErrorHandler } );
 
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || WINDOWS_PHONE8 )
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
       FieldInfo uiControlField = asyncTokenObject.GetType().GetField( "uiControl", BindingFlags.NonPublic | BindingFlags.Instance );
             uiControlField.SetValue( asyncTokenObject, this.uiControl );
 #endif
-#if( UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8)
+#if( UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
       HandleInvocation( className, methodName, args, messageHeaders, asyncTokenObject );
 #else
             HandleInvocation( null, className, methodName, args, messageHeaders, asyncTokenObject );
@@ -698,7 +698,7 @@ namespace Weborb.Client
       _engine.SendRequest( v3Msg, null, null, responder, null );
     }
 
-#if !(UNIVERSALW8 || PURE_CLIENT_LIB || WINDOWS_PHONE || WINDOWS_PHONE8)
+#if !(UNIVERSALW8 || PURE_CLIENT_LIB || WINDOWS_PHONE || WINDOWS_PHONE8 || NETSTANDARD)
     internal void HandleInvocation( IInvocation invocation, string className, string methodName, object[] arguments, IDictionary messageHeaders, object asyncTokenObject )
 #else
         internal void HandleInvocation( string className, string methodName, object[] arguments, IDictionary messageHeaders, object asyncTokenObject )
@@ -735,7 +735,7 @@ namespace Weborb.Client
       object[] invokeArgs = new object[] { className, methodName, arguments, messageHeaders, responderObj };
       invokeMethod.Invoke( this, invokeArgs );
 
-#if !( WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 )
+#if !( WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
       if ( invocation != null )
         invocation.ReturnValue = asyncTokenObject;
 #endif

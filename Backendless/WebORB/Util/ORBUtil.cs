@@ -44,7 +44,7 @@ namespace Weborb.Util
             stream.Write( protocolBytes.bytes, 0, protocolBytes.length );
             stream.Flush();
         }
-#if( !UNIVERSALW8 && !SILVERLIGHT && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if( !UNIVERSALW8 && !SILVERLIGHT && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
         public static string[] GetActivatorQueryStringValues()
         {
             string[] values = null;

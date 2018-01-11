@@ -12,12 +12,12 @@ namespace BackendlessAPI.Logging
 #if !UNITY && !PURE_CLIENT_LIB   
     private Mutex mutex;
 #endif
-    private Timer timer;
+    private System.Threading.Timer timer;
     private TimerCallback timerCallback;
 
     internal LogBuffer()
     {
-#if !UNITY && !PURE_CLIENT_LIB
+#if !UNITY && !PURE_CLIENT_LIB && !NETSTANDARD
       mutex = new Mutex( false, "LogBufferMutex" );
 #endif
       numOfMessages = 100;

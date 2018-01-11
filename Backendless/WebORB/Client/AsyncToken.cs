@@ -1,14 +1,14 @@
 ﻿using System;
-#if (!UNIVERSALW8 && !FULL_BUILD && !PURE_CLIENT_LIB)
+#if (!UNIVERSALW8 && !FULL_BUILD && !PURE_CLIENT_LIB && !NETSTANDARD)
 using System.Windows.Threading;
 using System.Windows.Controls;
 #endif
 
-#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB  && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB  && !WINDOWS_PHONE8 && !NETSTANDARD)
 using System.Windows.Browser;
 #endif
 
-#if !(UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 )
+#if !(UNIVERSALW8 || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
 using Weborb.ProxyGen.Core.Interceptor;
 #endif
 
@@ -23,10 +23,10 @@ namespace Weborb.Client
         internal bool isFault;
         internal T resultObject;
         internal Fault fault;
-#if( !UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB  && !WINDOWS_PHONE8)
+#if( !UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB  && !WINDOWS_PHONE8 && !NETSTANDARD)
         internal IInvocation invocation;
 #endif
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || NETSTANDARD)
         internal UserControl uiControl;
 #endif
         public AsyncToken( ResponseHandler<T> responseHandler, ErrorHandler errorHandler )
@@ -36,14 +36,14 @@ namespace Weborb.Client
             if( errorHandler != null )
                 ErrorListener += errorHandler;
         }
-#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
         public AsyncToken( IInvocation invocation, UserControl uiControl )
         {
             this.invocation = invocation;
             this.uiControl = uiControl;
         }
 #endif
-#if (!UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
         public IInvocation Invocation
         {
             get { return invocation; }
@@ -70,9 +70,10 @@ namespace Weborb.Client
                 gotResult = true;
                 if ( ResultListener != null )
                 {
-#if (UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB )
+#if (UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
                   ResultListener.Invoke( resultObject );
 #else
+#if !NETSTANDARD
                     if (uiControl != null)
                     uiControl.Dispatcher.BeginInvoke(delegate()
                                                        {
@@ -80,6 +81,7 @@ namespace Weborb.Client
                                                        });
                   else
                     ResultListener.Invoke(resultObject);
+#endif
 #endif
                 }
 
@@ -97,7 +99,7 @@ namespace Weborb.Client
 
                 if( ErrorListener != null )
                     ErrorListener.Invoke( fault );
-#if (!UNIVERSALW8 && !WINDOWS_PHONE && !FULL_BUILD && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !WINDOWS_PHONE && !FULL_BUILD && !PURE_CLIENT_LIB && !WINDOWS_PHONE8  && !NETSTANDARD)
                 else if( uiControl != null )
                     uiControl.Dispatcher.BeginInvoke( delegate()
                     {

@@ -1,8 +1,8 @@
 using System;
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || NETSTANDARD)
 using System.Windows.Controls;
 #endif
-#if !FULL_BUILD && !UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8
+#if !FULL_BUILD && !UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 &&!NETSTANDARD
 using System.Security;
 using System.Windows.Browser;
 #endif
@@ -94,16 +94,16 @@ namespace Weborb.Client
     {
       if (gatewayUrl.StartsWith("http://") || gatewayUrl.StartsWith("https://"))
         return new HttpEngine(gatewayUrl, idInfo);
-#if !UNIVERSALW8 && !PURE_CLIENT_LIB  && !WINDOWS_PHONE8
+#if !UNIVERSALW8 && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD
       if (gatewayUrl.StartsWith("rtmpt://"))
         return new RtmptEngine(gatewayUrl, idInfo);
 #endif
-#if (!UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
-      if (gatewayUrl.StartsWith("rtmp://"))
+#if (!UNIVERSALW8 && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
+            if (gatewayUrl.StartsWith("rtmp://"))
         return new RtmpEngine(gatewayUrl, idInfo);
 #endif
 
-      throw new ArgumentOutOfRangeException("gatewayUrl", "Unsupported URI scheme in the gateway URL.");
+            throw new ArgumentOutOfRangeException("gatewayUrl", "Unsupported URI scheme in the gateway URL.");
     }
 
     public String GatewayUrl;
@@ -116,7 +116,7 @@ namespace Weborb.Client
       IdInfo = idInfo.MemberwiseClone();
     }
 
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || NETSTANDARD)
     public static Engine Create(string gatewayUrl, IdInfo idInfo, UserControl uiControl)
     {
       Engine engine = Create(gatewayUrl, idInfo);
@@ -127,7 +127,7 @@ namespace Weborb.Client
     internal UserControl UiControl;
 #endif
 
-    internal abstract void Invoke<T>(string className, string methodName, object[] args, IDictionary requestHeaders, IDictionary messageHeaders, IDictionary httpHeaders, Responder<T> responder, AsyncStreamSetInfo<T> asyncStreamSetInfo);
+        internal abstract void Invoke<T>(string className, string methodName, object[] args, IDictionary requestHeaders, IDictionary messageHeaders, IDictionary httpHeaders, Responder<T> responder, AsyncStreamSetInfo<T> asyncStreamSetInfo);
     public abstract void SendRequest<T>( V3Message v3Msg, IDictionary requestHeaders, IDictionary httpHeaders, Responder<T> responder, AsyncStreamSetInfo<T> asyncStreamSetInfo );
     
     internal void SendRequest<T>( V3Message v3Msg, Responder<T> responder )
@@ -137,7 +137,7 @@ namespace Weborb.Client
     
     internal bool IsRTMP()
     {
-#if UNIVERSALW8 || PURE_CLIENT_LIB || WINDOWS_PHONE8
+#if UNIVERSALW8 || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD
      return false;
 #else
         return this is BaseRtmpEngine;
@@ -216,7 +216,7 @@ namespace Weborb.Client
 
         foreach ( T adaptedObject in messagesFirstPhase )
         {
-#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB)
+#if !(UNIVERSALW8 || FULL_BUILD || PURE_CLIENT_LIB || NETSTANDARD)
             if (UiControl != null && responder != null)
                       UiControl.Dispatcher.BeginInvoke(delegate()
                       {
@@ -239,7 +239,7 @@ namespace Weborb.Client
       if ( responder != null )
         {
           Fault fault = new Fault( e.Message, e.StackTrace, INTERNAL_CLIENT_EXCEPTION_FAULT_CODE );
-#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
           if ( e is SecurityException )
             fault = new Fault(SECURITY_FAULT_MESSAGE, e.Message);
 #endif

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-#if !UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8
+#if !UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD
 using System.Security;
 using System.Windows.Browser;
 #endif
@@ -96,7 +96,7 @@ namespace Weborb.Client
     {
       String error = e.Message;
 
-#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
+#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
                 if (e is SecurityException)
                 {
                     if (WeborbClient.Uri.Scheme.ToLower().StartsWith("file"))
@@ -125,7 +125,7 @@ namespace Weborb.Client
     {
 //      if ( _request != null )
         //        return _request;
-#if (FULL_BUILD || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8)
+#if (FULL_BUILD || WINDOWS_PHONE || PURE_CLIENT_LIB || WINDOWS_PHONE8 || NETSTANDARD)
       try
       {
         Uri uri = new Uri( GatewayUrl );
@@ -209,8 +209,8 @@ namespace Weborb.Client
         if ( exception is WebException && ( (WebException)exception ).Status == WebExceptionStatus.RequestCanceled )
           error = TIMEOUT_FAULT_MESSAGE;
 
-#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8)
-                if( exception is SecurityException )
+#if (!UNIVERSALW8 && !FULL_BUILD && !WINDOWS_PHONE && !PURE_CLIENT_LIB && !WINDOWS_PHONE8 && !NETSTANDARD)
+                if( exception is SecurityExcep tion )
                 {
                   if ( WeborbClient.Uri.Scheme.ToLower().StartsWith( "file" ) )
                   {

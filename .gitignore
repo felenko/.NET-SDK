@@ -87,3 +87,47 @@ Backendless/Backedless-Universal-W8.csproj
 Backendless/Backedless-Universal-W8.csproj.user
 BackendlessUnitySDK/BackendlessUnitySDK.suo
 
+Backendless.NET.sln
+.suo
+storage.ide
+BackendlessConsoleDemo.csproj
+BackendlessConsoleDemo.csproj.user
+BackendlessConsoleDemo.sln
+BackendlessConsoleDemo.suo
+Program.cs
+AssemblyInfo.cs
+app.config
+AWSSDK.dll
+Apache.NMS.dll
+Backendless.dll
+Backendless.pdb
+BackendlessConsoleDemo.exe
+BackendlessConsoleDemo.exe.config
+BackendlessConsoleDemo.pdb
+BackendlessConsoleDemo.vshost.exe
+BackendlessConsoleDemo.vshost.exe.config
+Iesi.Collections.dll
+Mono.Security.dll
+MySql.Data.dll
+NHibernate.dll
+Npgsql.dll
+Oracle.DataAccess.dll
+log4net.dll
+Friday, April 04, 2014.log
+Monday, March 31, 2014.log
+Saturday, April 05, 2014.log
+Thursday, April 03, 2014.log
+Tuesday, April 01, 2014.log
+test.txt
+weborb.config
+weborb.dll
+BackendlessConsoleDemo.vshost.exe.manifest
+WeborbClient.dll
+WeborbClient.pdb
+WeborbClient.xml
+BackendlessConsoleDemo.csproj.CopyComplete
+BackendlessConsoleDemo.csproj.CoreCompileInputs.cache
+BackendlessConsoleDemo.csproj.FileListAbsolute.txt
+BackendlessConsoleDemo.csprojResolveAssemblyReference.cache
+DesignTimeResolveAssemblyReferencesInput.cache
+build.force
