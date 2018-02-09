@@ -366,28 +366,28 @@ namespace BackendlessAPI.Service
 
     #region PUBLISH SYNC
 
-    public Messaging.MessageStatus Publish( object message, string channelName )
+    public Messaging.MessageStatus Publish(string channelName, object message )
     {
       return PublishSync( message, channelName, null, null );
     }
 
-    public Messaging.MessageStatus Publish( object message, string channelName, Messaging.PublishOptions publishOptions )
+    public Messaging.MessageStatus Publish(string channelName, object message, Messaging.PublishOptions publishOptions )
     {
       return PublishSync( message, channelName, publishOptions, null );
     }
 
-    public Messaging.MessageStatus Publish( object message, string channelName, Messaging.DeliveryOptions deliveryOptions )
+    public Messaging.MessageStatus Publish(string channelName, object message, Messaging.DeliveryOptions deliveryOptions )
     {
       return PublishSync( message, channelName, null, deliveryOptions );
     }
 
-    public Messaging.MessageStatus Publish( object message, string channelName, Messaging.PublishOptions publishOptions,
+    public Messaging.MessageStatus Publish(string channelName, object message, Messaging.PublishOptions publishOptions,
                                      Messaging.DeliveryOptions deliveryOptions )
     {
       return PublishSync( message, channelName, publishOptions, deliveryOptions );
     }
 
-    private Messaging.MessageStatus PublishSync( object message, string channelName, Messaging.PublishOptions publishOptions,
+    private Messaging.MessageStatus PublishSync(string channelName, object message, Messaging.PublishOptions publishOptions,
                                           Messaging.DeliveryOptions deliveryOptions )
     {
       checkChannelName( channelName );
